@@ -48,17 +48,17 @@ Use the `SensorWatcher` composable to observe and handle sensor data:
 ```kotlin
 @Composable
 fun MySensorScreen(context: Context, activity: Activity, paddingValues: PaddingValues) {
-    var temperatureData by remember { mutableStateOf(TemperatureData(0f)) }
+    var magnetometerSensorData by remember { mutableStateOf(Magnetometer(0f, y = 0f, z = 0f)) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    val temperatureSpec = TemperatureSpec(context)
+    val magnetometerSensor = MagnetometerSensor(context)
 
     SensorWatcher(
         context = context,
         activity = activity,
-        sensorSpec = temperatureSpec,
+        sensorSpec = magnetometerSensor,
         onData = { data ->
-            temperatureData = data
+            magnetometerSensorData = data
         },
         onError = { error ->
             errorMessage = when (error) {
@@ -70,10 +70,12 @@ fun MySensorScreen(context: Context, activity: Activity, paddingValues: PaddingV
     )
 
     Column(modifier = Modifier.padding(paddingValues)) {
-        BasicText(text = "Temperature: ${temperatureData.temperature}°C")
-        BasicText(text = "Sensor Name: ${temperatureSpec.sensorInfo.name}")
-        BasicText(text = "Vendor: ${temperatureSpec.sensorInfo.vendor}")
-        BasicText(text = "Version: ${temperatureSpec.sensorInfo.version}")
+        BasicText(text = "X-Axis: ${magnetometerSensorData.x}")
+        BasicText(text = "Y-Axis: ${magnetometerSensorData.y}")
+        BasicText(text = "Z-Axis: ${magnetometerSensorData.z}")
+        BasicText(text = "Sensor Name: ${magnetometerSensor.sensorInfo.name}")
+        BasicText(text = "Vendor: ${magnetometerSensor.sensorInfo.vendor}")
+        BasicText(text = "Version: ${magnetometerSensor.sensorInfo.version}")
         errorMessage?.let {
             BasicText(text = "Error: $it")
         }
