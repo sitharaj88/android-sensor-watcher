@@ -1,2 +1,2 @@
 install:
-  - ./gradlew clean :keyboard:assembleRelease :keyboard:publish
+  - ./gradlew clean :sensorwatcher:assembleRelease :sensorwatcher:publish
